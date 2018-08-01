@@ -17,6 +17,9 @@ else {
   unset($imagesArray[0]);
   unset($imagesArray[1]);
 
+  // create an empty array that will keep track of the images already shown
+  $_SESSION['shownArray'] = array();
+
   $imgUrl = getRandomImage($imagesArray);
 }
 
@@ -26,6 +29,9 @@ function getRandomImage($imagesArray) {
 
   // set it to a variable to use in the img src
   $randImageUrl = $imagesArray[$randImage];
+
+  // add the image to the shown images array
+  $_SESSION['shownArray'][] = $randImageUrl;
 
   // remove the shown image from the array;
   unset($imagesArray[$randImage]);
@@ -51,10 +57,17 @@ function getRandomImage($imagesArray) {
     <p>There are <?php echo count($_SESSION['imgArray']); ?> new images left</p>
     <p>These are the images left:
       <?php
-         foreach($_SESSION['imgArray'] as $image) {
-           echo $image . ", ";
-         }
+       foreach($_SESSION['imgArray'] as $image) {
+         echo $image . ", ";
+       }
       ?>
+     </p>
+     <p>These images have already been shown:
+       <?php
+        foreach($_SESSION['shownArray'] as $image) {
+          echo $image . ", ";
+        }
+       ?>
      </p>
     <img src="images/<?php echo $imgUrl ?>" alt="">
 
